@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+int findLargestNumber(int num) {
+    int maxNumber = -1;
+    int divisor = 1;
+
+    while (divisor <= num) {
+        int tempNumber = (num / (divisor * 10)) * divisor + (num % divisor);
+        if (tempNumber > maxNumber) {
+            maxNumber = tempNumber;
+        }
+        divisor *= 10;
+    }
+
+    return maxNumber;
+}
+
+int main() {
+    int num;
+
+    printf("Enter a 4-digit number: ");
+    scanf("%d", &num);
+
+    if (num < 1000 || num > 9999) {
+        printf("Invalid input. Please enter a 4-digit number.\n");
+        return 0;
+    }
+
+    int largestNumber = findLargestNumber(num);
+
+    printf("Largest number by deleting a single digit: %d\n", largestNumber);
+
+    return 0;
+}
+

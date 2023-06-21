@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+void printPattern1(int n) {
+    for (int i = 1; i <= n; i++) {
+        printf("%d", i);
+    }
+}
+
+void printPattern2(int n) {
+    for (int i = 1; i <= n; i++) {
+        printf(" ");
+    }
+}
+
+void printPattern3(int n) {
+    for (int i = n; i >= 1; i--) {
+        printf("%d", i);
+    }
+}
+
+int main() {
+    int n = 5;
+
+    for (int i = 1; i <= n; i++) {
+        printPattern1(i);
+        printPattern3(i - 1);
+        printPattern2(2 * (n - i));
+        printPattern3(i - 1);
+        printPattern1(i);
+        printf("\n");
+    }
+
+    return 0;
+}
+
