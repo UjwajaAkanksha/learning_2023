@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+struct Student {
+    int rollno;
+    char name[20];
+    float marks;
+};
+
+void displayArray(struct Student* students, int size) {
+    printf("Array of Structures:\n");
+    for (int i = 0; i < size; i++) {
+        printf("Student %d\n", i + 1);
+        printf("Roll No: %d\n", students[i].rollno);
+        printf("Name: %s\n", students[i].name);
+        printf("Marks: %.2f\n", students[i].marks);
+        printf("\n");
+    }
+}
+
+int main() {
+    int size;
+    printf("Enter the number of students: ");
+    scanf("%d", &size);
+    getchar();  
+
+    struct Student* students = (struct Student*)malloc(size * sizeof(struct Student));
+
+   
+
+    displayArray(students, size);
+
+    free(students);
+
+    return 0;
+}
