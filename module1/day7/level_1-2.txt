@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+void convertToUpperCase(FILE* source, FILE* target) {
+    int ch;
+    while ((ch = fgetc(source)) != EOF) {
+        fputc(toupper(ch), target);
+    }
+}
+
+void convertToLowerCase(FILE* source, FILE* target) {
+    int ch;
+    while ((ch = fgetc(source)) != EOF) {
+        fputc(tolower(ch), target);
+    }
+}
+
+void convertToSentenceCase(FILE* source, FILE* target) {
+    int ch;
+    int isFirstCharacter = 1;
+    while ((ch = fgetc(source)) != EOF) {
+        if (isFirstCharacter) {
+            fputc(toupper(ch), target);
+            isFirstCharacter = 0;
+        } else {
+            fputc(tolower(ch), target);
+            if (ch == '.' || ch == '!' || ch == '?') {
+                isFirstCharacter = 1;
+            }
+        }
+    }
+}
+
+void performNormalCopy(FILE* source, FILE* target) {
+    int ch;
+    while ((ch = fgetc(source)) != EOF) {
+        fputc(ch, target);
+    }
+}
+
+int main(int argc, char* argv[]) {
+    if (argc < 3) {
+        printf("Insufficient arguments.\n");
+        printf("Usage: %s <option> <source_file> <target_file>\n", argv[0]);
+        printf("Options:\n");
+        printf("-u: Convert file content to uppercase\n");
+        printf("-l: Convert file content to lowercase\n");
+        printf("-s: Convert file content to sentence case\n");
+        return 1;
+    }
+
+    char* option = argv[1];
+    char* sourceFileName = argv[2];
+    char* targetFileName = argv[3];
+
+    FILE* sourceFile = fopen(sourceFileName, "r");
+    if (sourceFile == NULL) {
+        printf("Failed to open the source file.\n");
+        return 1;
+    }
+
+    FILE* targetFile = fopen(targetFileName, "w");
+    if (targetFile == NULL) {
+        printf("Failed to create the target file.\n");
+        fclose(sourceFile);
+        return 1;
+    }
+
+    if (strcmp(option, "-u") == 0) {
+        convertToUpperCase(sourceFile, targetFile);
+        printf("File copied and converted to uppercase successfully.\n");
+    } else if (strcmp(option, "-l") == 0) {
+        convertToLowerCase(sourceFile, targetFile);
+        printf("File copied and converted to lowercase successfully.\n");
+    } else if (strcmp(option, "-s") == 0) {
+        convertToSentenceCase(sourceFile, targetFile);
+        printf("File copied and converted to sentence case successfully.\n");
+    } else {
+        performNormalCopy(sourceFile, targetFile);
+        printf("Normal file copy performed.\n");
+    }
+
+    fclose(sourceFile);
+    fclose(targetFile);
+
+    return 0;
+}
